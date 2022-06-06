@@ -1,42 +1,43 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
+import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Torch from 'react-native-torch';
 import RNShake from 'react-native-shake';
+
 const App = () => {
   const [toggle, setToggle] = useState(false);
 
   const handleChangeToggle = () => setToggle(oldToggle => !oldToggle);
 
   useEffect(() => {
-    //Liga flash do celular
+    // Liga flash do celular
     Torch.switchState(toggle);
   }, [toggle]);
 
   useEffect(() => {
     /**
-     * Quando o celular  for chacoalhado, mudaremos o toggle
+     * Quando o celular for chacoalhado, mudaremos o toggle
      */
     const subscription = RNShake.addListener(() => {
       setToggle(oldToggle => !oldToggle);
     });
 
-    // Essa função vai ser chamada quando o components
+    // Essa func vai ser chamada quando o componets
     // For ser desmontado
     return () => subscription.remove();
   }, []);
 
   return (
     <View style={toggle ? style.containerLight : style.container}>
-      <TouchableOpacity onPress= {handleChangeToggle}>
-        <Image 
+      <TouchableOpacity onPress={handleChangeToggle}>
+        <Image
           style={toggle ? style.lightingOn : style.lightingOff}
           source={
             toggle
               ? require('./assets/icons/FlashON.png')
-              : require('./assets/icons/FlashOFF.png')}
+              : require('./assets/icons/FlashOFF.png')
+          }
         />
       </TouchableOpacity>
-
     </View>
   );
 };
@@ -59,14 +60,14 @@ const style = StyleSheet.create({
   lightingOn: {
     resizeMode: 'contain',
     alignSelf: 'center',
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
   },
   lightingOff: {
     resizeMode: 'contain',
     alignSelf: 'center',
     tintColor: 'white',
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
   },
 });
